@@ -11,27 +11,34 @@
   <body>
     <div id="calculator">
       <div class="display">
-        <input id="display" type="text" name="display" maxlength="15" />
+        <input
+          id="display"
+          type="text"
+          name="display"
+          maxlength="15"
+          value="0"
+          readonly
+        />
       </div>
       <div id="buttons">
         <button id="clear" value="c">C</button>
         <button id="back" value="&larr;">&larr;</button>
         <button id="percent" value="%">%</button>
         <button id="divide" value="/">/</button>
-        <button id="seven" value="7">7</button>
-        <button id="eight" value="8">8</button>
-        <button id="nine" value="9">9</button>
+        <button class="keypad-value-input" id="seven" value="7">7</button>
+        <button class="keypad-value-input" id="eight" value="8">8</button>
+        <button class="keypad-value-input" id="nine" value="9">9</button>
         <button id="multiply" value="*">*</button>
-        <button id="four" value="4">4</button>
-        <button id="five" value="5">5</button>
-        <button id="six" value="6">6</button>
+        <button class="keypad-value-input" id="four" value="4">4</button>
+        <button class="keypad-value-input" id="five" value="5">5</button>
+        <button class="keypad-value-input" id="six" value="6">6</button>
         <button id="subtract" value="-">-</button>
-        <button id="one" value="1">1</button>
-        <button id="two" value="2">2</button>
-        <button id="three" value="3">3</button>
+        <button class="keypad-value-input" id="one" value="1">1</button>
+        <button class="keypad-value-input" id="two" value="2">2</button>
+        <button class="keypad-value-input" id="three" value="3">3</button>
         <button id="add" value="+">+</button>
-        <button id="zero" value="0">0</button>
-        <button id="decimal" value=".">.</button>
+        <button class="keypad-value-input" id="zero" value="0">0</button>
+        <button class="keypad-value-input" id="decimal" value=".">.</button>
         <button id="equals" value="=">=</button>
       </div>
     </div>

@@ -68,3 +68,7 @@ button {
   font-size: 32px;
   padding: 0 5px;
 }
+
+.bg-gradient {
+  background: linear-gradient(to right, #2f80ed, #56ccf2);
+}

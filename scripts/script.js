@@ -10,8 +10,11 @@ const multiplyBtn = document.getElementById('multiply');
 const divideBtn = document.getElementById('divide');
 const percent = document.getElementById('percent');
 const oneBtn = document.getElementById('one');
+const decimal = document.getElementById('decimal');
 
 const keypad = document.querySelectorAll('.keypad-value-input');
+
+const elementosButt = document.querySelectorAll('.butt');
 
 let isOperatorUsed = false;
 let operator = '';
@@ -65,30 +68,12 @@ function operate(operator, firstNumber, secondNumber) {
 }
 
 const back = function () {
-  console.log(display.value);
   if (display.value === '0' || display.value.length === '1') {
     display.value = '0';
     return;
   }
   display.value = display.value.slice(0, -1);
 };
-
-equalBtn.addEventListener('click', equal);
-
-backBtn.addEventListener('click', back);
-
-clearBtn.addEventListener('click', clear);
-
-// display.addEventListener('keypress', check);
-plusBtn.addEventListener('click', onHandlerOperationClick);
-subtractBtn.addEventListener('click', onHandlerOperationClick);
-multiplyBtn.addEventListener('click', onHandlerOperationClick);
-divideBtn.addEventListener('click', onHandlerOperationClick);
-percent.addEventListener('click', onHandlerOperationClick);
-
-document.addEventListener('keydown', onHandlerDisplayKeyPress);
-
-keypad.forEach((node) => node.addEventListener('click', onHandlerDisplayClick));
 
 const optionsKeys = {
   0: '0',
@@ -107,12 +92,31 @@ const optionsKeys = {
   '/': '/',
   '.': '.',
   '%': '%',
+  c: 'c',
   Enter: 'Enter',
   Backspace: 'Backspace',
   default: '',
 };
 
 const operationList = ['+', '-', '*', '/', '%'];
+
+function handleKeyDown(e) {
+  elementosButt.forEach((ele) => {
+    const val = optionsKeys[e.key] || optionsKeys['default'];
+    if (val === ele.textContent) {
+      ele.classList.add('bg-gradient');
+    }
+  });
+}
+
+function handleKeyUp(e) {
+  elementosButt.forEach((ele) => {
+    const val = optionsKeys[e.key] || optionsKeys['default'];
+    if (val === ele.textContent) {
+      ele.classList.remove('bg-gradient');
+    }
+  });
+}
 
 function onHandlerDisplayKeyPress(e) {
   const maxLength = 15;
@@ -122,9 +126,9 @@ function onHandlerDisplayKeyPress(e) {
     isOperatorUsed = false;
     console.log('safe input calculator', isOperatorUsed);
   }
-  console.log(e.key);
 
   const val = optionsKeys[e.key] || optionsKeys['default'];
+
   if (val === 'Enter') {
     return equal();
   }
@@ -137,8 +141,11 @@ function onHandlerDisplayKeyPress(e) {
     return back();
   }
 
+  if (val === 'c') {
+    return clear();
+  }
+
   if (val === '.' && display.value.includes('.')) {
-    // Si el valor clickeado es un punto y ya hay un punto en el display, no hacer nada
     return;
   }
 
@@ -189,3 +196,73 @@ function onHandlerDisplayClick(e) {
     display.value += clickVal;
   }
 }
+
+function handleKeydownEvent(key, element) {
+  document.addEventListener('keydown', (e) => {
+    if (e.key === key) {
+      element.classList.add('bg-gradient');
+    }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.key === key) {
+      element.classList.remove('bg-gradient');
+    }
+  });
+}
+
+function onEventDown(e) {
+  e.target.classList.add('bg-gradient');
+}
+function onEventUp(e) {
+  e.target.classList.remove('bg-gradient');
+}
+
+document.addEventListener('keydown', handleKeyDown);
+document.addEventListener('keyup', handleKeyUp);
+
+handleKeydownEvent('Backspace', backBtn);
+handleKeydownEvent('Enter', equalBtn);
+handleKeydownEvent('.', decimal);
+handleKeydownEvent('c', clearBtn);
+
+function listenersHandlers(element) {
+  if (element === equalBtn) {
+    element.addEventListener('click', equal);
+    element.addEventListener('mousedown', onEventDown);
+    element.addEventListener('mouseup', onEventUp);
+  }
+
+  if (element === clearBtn) {
+    element.addEventListener('click', clear);
+    element.addEventListener('mousedown', onEventDown);
+    element.addEventListener('mouseup', onEventUp);
+  }
+
+  if (element === backBtn) {
+    element.addEventListener('click', back);
+    element.addEventListener('mousedown', onEventDown);
+    element.addEventListener('mouseup', onEventUp);
+  }
+
+  element.addEventListener('click', onHandlerOperationClick);
+  element.addEventListener('mousedown', onEventDown);
+  element.addEventListener('mouseup', onEventUp);
+}
+
+listenersHandlers(equalBtn);
+listenersHandlers(backBtn);
+listenersHandlers(clearBtn);
+listenersHandlers(plusBtn);
+listenersHandlers(subtractBtn);
+listenersHandlers(multiplyBtn);
+listenersHandlers(divideBtn);
+listenersHandlers(percent);
+
+document.addEventListener('keydown', onHandlerDisplayKeyPress);
+
+keypad.forEach((node) => {
+  node.addEventListener('click', onHandlerDisplayClick);
+  node.addEventListener('mousedown', onEventDown);
+  node.addEventListener('mouseup', onEventUp);
+});
